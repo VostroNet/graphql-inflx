@@ -61,6 +61,7 @@ typings/
 .next
 
 yarn.lock
+yalc.lock
 
 src/
 __tests__/
@@ -68,3 +69,4 @@ __tests__/
 .babelrc
 .eslint*
 gulpfile.js
+.yalc
