@@ -60,7 +60,11 @@ typings/
 # next.js build output
 .next
 
-.yalc
-yalc.lock
 yarn.lock
-lib/
+
+src/
+__tests__/
+.vscode/
+.babelrc
+.eslint*
+gulpfile.js
