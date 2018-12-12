@@ -80,6 +80,7 @@ export function createResolver(model, hooks, defaultOptions) {
     async resolve(source, args, context, info) {
       try {
         let opts = Object.assign({
+          context,
           groups: [
             "*",
           ],
@@ -103,9 +104,10 @@ export function createResolver(model, hooks, defaultOptions) {
 
         const [fullCount, results] = await Promise.all([
           model.count(Object.assign({
+            context,
             where: opts.where,
             groups: [
-              "*"
+              "*",
             ]
           }, defaultOptions)),
           model.findAll(opts),

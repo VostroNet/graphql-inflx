@@ -38,8 +38,5 @@
   "peerDependencies": {
     "graphql": "^14.0.2",
     "graphql-relay": "^0.5.5"
-  },
-  "dependencies": {
-    "@vostro/inflx": "file:.yalc/@vostro/inflx"
   }
 }
