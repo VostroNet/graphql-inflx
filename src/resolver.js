@@ -13,10 +13,14 @@ import {replaceKeyDeep} from "./replace-operators";
 import {toGlobalId} from "graphql-relay/lib/node/node";
 import { toCursor, fromCursor } from "./cursor";
 import { GQLPageInfo } from "./objects";
-import dateType from "./types/dateType";
-import jsonType from "./types/jsonType";
 
-export function createField(model) {
+import dateType from "@vostro/graphql-types/lib/date";
+import jsonType from "@vostro/graphql-types/lib/json";
+import floatType from "@vostro/graphql-types/lib/float";
+
+import {Types} from "@vostro/inflx";
+
+export function createModelField(model) {
   const name = model.modelName;
   const edge = new GraphQLObjectType({
     name: `Inflx${name}Edge`,
@@ -41,8 +45,24 @@ export function createField(model) {
               },
             },
           }, Object.keys(model.schema.fields).reduce((o, f) => {
+            let type;
+            switch (model.schema.fields[f]) {
+              case Types.STRING:
+                type = GraphQLString;
+                break;
+              case Types.FLOAT:
+                type = floatType;
+                break;
+              case Types.INTEGER:
+                type = GraphQLInt;
+                break;
+              case Types.BOOLEAN:
+                type = GraphQLBoolean;
+                break;
+            }
+
             o[f] = {
-              type: GraphQLString,
+              type,
             };
             return o;
           }, {}),
@@ -76,7 +96,7 @@ export function createField(model) {
 export function createResolver(model, hooks, defaultOptions) {
   return {
     args: createDefaultArgs(),
-    type: createField(model),
+    type: createModelField(model),
     async resolve(source, args, context, info) {
       try {
         let opts = Object.assign({

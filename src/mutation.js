@@ -1,7 +1,12 @@
 
 
-import {GraphQLBoolean, GraphQLList, GraphQLInputObjectType, GraphQLString} from "graphql";
-import dateType from "./types/dateType";
+import {GraphQLBoolean, GraphQLList, GraphQLInputObjectType, GraphQLString, GraphQLInt} from "graphql";
+
+import dateType from "@vostro/graphql-types/lib/date";
+import jsonType from "@vostro/graphql-types/lib/json";
+import floatType from "@vostro/graphql-types/lib/float";
+
+import {Types} from "@vostro/inflx";
 
 export function createMutation(model) {
   const input = new GraphQLInputObjectType({
@@ -10,9 +15,25 @@ export function createMutation(model) {
       time: {
         type: dateType,
       }
-    }, Object.keys(model.schema.fields).reduce((o, k) => {
-      o[k] = {
-        type: GraphQLString,
+    }, Object.keys(model.schema.fields).reduce((o, f) => {
+      let type;
+      switch (model.schema.fields[f]) {
+        case Types.STRING:
+          type = GraphQLString;
+          break;
+        case Types.FLOAT:
+          type = floatType;
+          break;
+        case Types.INTEGER:
+          type = GraphQLInt;
+          break;
+        case Types.BOOLEAN:
+          type = GraphQLBoolean;
+          break;
+      }
+
+      o[f] = {
+        type,
       };
       return o;
     }, {}), model.schema.tags.reduce((o, t) => {
