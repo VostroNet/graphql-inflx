@@ -1,4 +1,4 @@
-import { unbase64, base64 } from "./base64";
+import { unbase64, base64 } from "./utils/base64";
 
 export function fromCursor(cursor) {
   let [id, index] = JSON.parse(unbase64(cursor));

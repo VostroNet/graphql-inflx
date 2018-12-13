@@ -7,8 +7,8 @@ import {
   // GraphQLList,
 } from "graphql";
 
-export const GQLPageInfo = new GraphQLObjectType({
-  name: "InfluxPageInfo",
+export default new GraphQLObjectType({
+  name: "GQIPageInfo",
   fields() {
     return {
       "hasNextPage": {
