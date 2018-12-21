@@ -137,8 +137,8 @@ export function createResolver(model, options, defaultFindOptions, customEdge, c
   return {
     args: createDefaultArgs(options, model),
     type: edge,
-    async resolve(source, args, context, info) {
-      const groups = args.groupBy.length === 0 ? ["*"] : args.groupBy;
+    async resolve(source, args = {}, context, info) {
+      const groups = (args.groupBy || []).length === 0 ? ["*"] : args.groupBy;
       const initOpts = {
         context,
         groups,
